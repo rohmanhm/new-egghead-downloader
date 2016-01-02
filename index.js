@@ -96,7 +96,7 @@ async function getVideoData () {
       success(`Found ${lessonURLs.length} ${(lessonURLs.length) > 1 ? 'lessons' : 'lesson'}`)
       progress.start('Fetching lesson pages')
       // fetch and process the lessons, start all requests at the same time to save time.
-      const promises = lessonURLs.map((url) => processLessonURL(url))
+      const promises = lessonURLs.map(processLessonURL)
       const result = await Promise.all(promises.map(reflect))
       progress.stop(true)
       // get the urls that succeded and thos that failed
