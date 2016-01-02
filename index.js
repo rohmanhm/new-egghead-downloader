@@ -104,7 +104,7 @@ async function getVideoData () {
       const failed = result.filter(v => (v.state === 'rejected'))
       // check if we have some lesson pages that failed (wrong url or paid)
       if (failed.length) {
-        error(`Failed to parse the following lesson pages: ${failed.map(v => `'${v}'`).join(',')}`, false)
+        error(`Failed to parse the following lesson pages: ${failed.map(v => `'${v.value}'`).join(',')}`, false)
       }
       return videoURLs
     }
