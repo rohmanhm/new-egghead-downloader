@@ -1,6 +1,6 @@
 # Egghead.io downloader
 
-This is a small node.js command line tool that can download series, playlists and lessons from [egghead.io](https://egghead.io/) for you.
+This is a small node.js command line tool that can download series, playlists and lessons from [egghead.io](https://egghead.io/) as .mp4 for you.
 
 To get started clone this repo, then:
 
