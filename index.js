@@ -22,7 +22,7 @@ program
   })
 program.parse(process.argv)
 
-if (process.argv.slice(2).length !== 2) {
+if (process.argv.slice(2).length < 2) {
   program.outputHelp()
   process.exit()
 }
