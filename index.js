@@ -27,7 +27,7 @@ if (process.argv.slice(2).length < 2) {
   process.exit()
 }
 
-if (!/egghead.io\/(lessons|series|playlist)\//.test(urlValue)) {
+if (!/egghead.io\/(lessons|series|playlists)\//.test(urlValue)) {
   error('unsupported url!')
 }
 
