@@ -23,7 +23,7 @@ Then you can use it from the command line
 
 
 ### Development
-Since this tool is written in ES6/ES7 (uses await/async from the ES7 draft), you need to run `npm run build` if you edit it (this updates dist/app.js). Or you can run it directly with babel-node: `$ babel-node src/app.js --help`
+Since this tool is written in ES6/ES7 (it uses [await/async from the ES7 draft](https://tc39.github.io/ecmascript-asyncawait/), you need to run `npm run build` if you edit the source (this runs babel, which transpiles it to code that node can understand). Or you can run it directly with babel-node: `$ babel-node src/app.js --help`
 
 ### Notes
 Since this tool depends on the page structure of egghead.io, it is very likely to stop working at some point ;)
