@@ -131,7 +131,7 @@ function processLessonURL (url) {
 
 // parses the lesson page, returns the video data if found.
 function parseLessonPage (source) {
-  const re = /<meta itemprop="name" content="(.+?)".+<meta itemprop="contentURL" content="https:\/\/embed-ssl.wistia.com\/deliveries\/(.+?)\.bin"/
+  const re = /<meta itemprop="name" content="([^"]+?)".+?<meta itemprop="contentURL" content="http[^"]+?.wistia.com\/deliveries\/(.+?)\.bin"/
   const result = re.exec(source)
   if (result) {
     return {
