@@ -8,6 +8,9 @@
     "type": "git",
     "url": "git@github.com:SimonSelg/egghead-downloader.git"
   },
+  "engines" : {
+    "node" : ">=6.0.0"
+  },
   "preferGlobal": true,
   "bin": {
     "egghead-downloader": "dist/app.js"

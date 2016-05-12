@@ -1,4 +1,4 @@
 {
-  "presets": ["es2015"],
-  "plugins": ["syntax-async-functions","transform-regenerator"]
+  "presets": ["es2015-node"],
+  "plugins": ["transform-async-to-generator"]
 }
