@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-require('babel-polyfill')
 const program = require('commander')
 const chalk = require('chalk')
 const rp = require('request-promise')
