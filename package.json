@@ -1,6 +1,6 @@
 {
   "name": "egghead-downloader",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Downloads single videos or series from egghead.io for you",
   "author": "Simon Selg <simon@selg.me>",
   "license": "MIT",
