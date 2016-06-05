@@ -20,7 +20,7 @@ Then you can use it from the command line
       -h, --help     output usage information
       -V, --version  output the version number
       -c, --count    Add the number of the video to the filename (only for playlists and series)
-      -f --force     Overwriting existing files
+      -f, --force    Overwriting existing files
 
 
 ### Development
