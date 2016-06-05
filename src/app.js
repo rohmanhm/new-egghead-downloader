@@ -15,6 +15,7 @@ program
   .version('0.0.1')
   .arguments('<url> <output-dir>')
   .option('-c, --count', 'Add the number of the video to the filename (only for playlists and series)')
+  .option('-f, --force', 'Overwriting existing files')
   .action((url, output) => {
     urlValue = url
     outputDir = path.resolve(output)
@@ -33,6 +34,14 @@ if (!/egghead.io\/(lessons|series|playlists)\//.test(urlValue)) {
 // await is only supported in functions (with the async keyword)
 doTheMagic()
 
+function fileExists(p){
+  try {
+    return fs.statSync(p).isFile();
+  } catch (e){
+    return false;
+  }
+};
+
 async function doTheMagic () {
   const videos = await getVideoData()
   if (!videos.length) {
@@ -42,10 +51,15 @@ async function doTheMagic () {
 
   createOutputDirectoryIfNeeded()
 
-  let i = 1
+  let i = 0
   for (const {url, filename} of videos) {
-    progress.start(`Downloading video ${i} out of ${videos.length}: '${filename}'`)
+    i++;
     const p = path.join(outputDir, (program.count ? `${i}-${filename}` : filename))
+    if (!program.force && fileExists(p)) {
+      console.log(`File ${i}-${filename} already exists, skip`);
+      continue;
+    }
+    progress.start(`Downloading video ${i} out of ${videos.length}: '${filename}'`)
     const stream = fs.createWriteStream(p)
     await new Promise((resolve, reject) => {
       request(url)
@@ -60,7 +74,6 @@ async function doTheMagic () {
     })
     stream.close()
     progress.stop(true)
-    i++
   }
   success('Done!')
 }
