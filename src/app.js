@@ -34,13 +34,13 @@ if (!/egghead.io\/(lessons|series|playlists)\//.test(urlValue)) {
 // await is only supported in functions (with the async keyword)
 doTheMagic()
 
-function fileExists(p){
+function fileExists (p) {
   try {
-    return fs.statSync(p).isFile();
-  } catch (e){
-    return false;
+    return fs.statSync(p).isFile()
+  } catch (e) {
+    return false
   }
-};
+}
 
 async function doTheMagic () {
   const videos = await getVideoData()
@@ -53,11 +53,11 @@ async function doTheMagic () {
 
   let i = 0
   for (const {url, filename} of videos) {
-    i++;
+    i++
     const p = path.join(outputDir, (program.count ? `${i}-${filename}` : filename))
     if (!program.force && fileExists(p)) {
-      console.log(`File ${i}-${filename} already exists, skip`);
-      continue;
+      console.log(`File ${i}-${filename} already exists, skip`)
+      continue
     }
     progress.start(`Downloading video ${i} out of ${videos.length}: '${filename}'`)
     const stream = fs.createWriteStream(p)
