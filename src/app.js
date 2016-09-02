@@ -51,10 +51,12 @@ async function doTheMagic () {
 
   createOutputDirectoryIfNeeded()
 
+  const padLength = String(videos.length).length
+  const padZeros = '0'.repeat(padLength)
   let i = 0
   for (const {url, filename} of videos) {
     i++
-    let paddedCounter = `00${i}`.slice(-2) 
+    let paddedCounter = `${padZeros}${i}`.slice(-padLength)
     const p = path.join(outputDir, (program.count ? `${paddedCounter}-${filename}` : filename))
     if (!program.force && fileExists(p)) {
       console.log(`File ${paddedCounter}-${filename} already exists, skip`)
