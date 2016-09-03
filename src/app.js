@@ -51,15 +51,18 @@ async function doTheMagic () {
 
   createOutputDirectoryIfNeeded()
 
+  const padLength = String(videos.length).length
+  const padZeros = '0'.repeat(padLength)
   let i = 0
   for (const {url, filename} of videos) {
     i++
-    const p = path.join(outputDir, (program.count ? `${i}-${filename}` : filename))
+    let paddedCounter = `${padZeros}${i}`.slice(-padLength)
+    const p = path.join(outputDir, (program.count ? `${paddedCounter}-${filename}` : filename))
     if (!program.force && fileExists(p)) {
-      console.log(`File ${i}-${filename} already exists, skip`)
+      console.log(`File ${paddedCounter}-${filename} already exists, skip`)
       continue
     }
-    progress.start(`Downloading video ${i} out of ${videos.length}: '${filename}'`)
+    progress.start(`Downloading video ${paddedCounter} out of ${videos.length}: '${filename}'`)
     const stream = fs.createWriteStream(p)
     await new Promise((resolve, reject) => {
       request(url)
