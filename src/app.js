@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 const program = require('commander')
+const pkg = require('../package.json')
 const chalk = require('chalk')
 const rp = require('request-promise')
 const request = require('request')
@@ -12,13 +13,13 @@ let outputDir
 const progress = new PleasantProgress()
 
 program
-  .version('0.0.1')
-  .arguments('<url> <output-dir>')
+  .version(pkg.version)
+  .arguments('<url> [output-dir]')
   .option('-c, --count', 'Add the number of the video to the filename (only for playlists and series)')
   .option('-f, --force', 'Overwriting existing files')
   .action((url, output) => {
     urlValue = url
-    outputDir = path.resolve(output)
+    outputDir = output ? path.resolve(output) : process.cwd();
   })
 program.parse(process.argv)
 
