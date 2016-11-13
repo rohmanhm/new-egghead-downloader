@@ -2,19 +2,26 @@
 const program = require('commander')
 const pkg = require('../package.json')
 const chalk = require('chalk')
-const rp = require('request-promise')
+const requestPromise = require('request-promise')
 const request = require('request')
 const PleasantProgress = require('pleasant-progress')
 const path = require('path')
 const fs = require('fs')
+const inquirer = require('inquirer')
 
 let urlValue
 let outputDir
+let isPro = false
+const prompt = inquirer.createPromptModule()
 const progress = new PleasantProgress()
+const rp = requestPromise.defaults({jar: true})
+const SIGN_IN_URL = 'https://egghead.io/users/sign_in'
 
 program
   .version(pkg.version)
   .arguments('<url> [output-dir]')
+  .option('-e, --email <email>', 'Account email (only required for Pro accounts)')
+  .option('-p, --password [password]', 'Account password (only required for Pro accounts)', true)
   .option('-c, --count', 'Add the number of the video to the filename (only for playlists and series)')
   .option('-f, --force', 'Overwriting existing files')
   .action((url, output) => {
@@ -43,7 +50,53 @@ function fileExists (p) {
   }
 }
 
+async function getCSRFToken() {
+  const body = await rp(SIGN_IN_URL)
+  const pattern = /<meta name="csrf-token" content="(.*)" \/>/
+  const [, CSRFToken] = pattern.exec(body) || []
+  return CSRFToken
+}
+
+async function authenticate(email, password) {
+  const CSRFToken = await getCSRFToken()
+  const options = {
+    method: 'POST',
+    uri: SIGN_IN_URL,
+    form: {
+      'user[email]': email,
+      'user[password]': password,
+      'authenticity_token': CSRFToken
+    },
+    simple: false,
+    resolveWithFullResponse: true
+  }
+
+  const response = await rp(options)
+
+  if (response.statusCode !== 302) {
+    throw Error('Failed to authenticate.')
+  }
+}
+
 async function doTheMagic () {
+  if (program.email) {
+    if (program.password === true) {
+      const { password } = await prompt({
+        type: 'password',
+        name: 'password',
+        message: 'Egghead.io password'
+      })
+      program.password = password
+    }
+    try {
+      await authenticate(program.email, program.password)
+      isPro = true
+      success('Authenticated!')
+    } catch (err) {
+      return error(err)
+    }
+  }
+
   const videos = await getVideoData()
   if (!videos.length) {
     error('no video found!')
@@ -86,13 +139,32 @@ async function doTheMagic () {
 // too, and returns an array with the video data
 async function getVideoData () {
   try {
-    const isLesson = /egghead.io\/lessons\//.test(urlValue)
+    const [, lessonSlug] = /egghead.io\/lessons\/([^\?]*)/.exec(urlValue) || []
     let source = await rp(urlValue)
 
-    if (isLesson) {
-      success('The URL is a lession')
+    if (lessonSlug) {
+      let videoData
+      success('The URL is a lesson')
+
+      if (isPro) {
+        const response = await rp({
+          uri: `https://egghead.io/api/v1/lessons/${lessonSlug}/next_up`,
+          json: true
+        })
+        const { lessons } = response.list || {lessons: []}
+
+        videoData = lessons
+          .filter((lesson) => lesson.slug === lessonSlug)
+          .map((lesson) => {
+            const pattern = /https:\/\/.*\/lessons\/.*\/(.*)\?.*/
+            const [url, filename] = pattern.exec(lesson.download_url)
+            return {url, filename}
+          })[0]
+      } else {
+        videoData = parseLessonPage(source)
+      }
+
       // process the lesson page
-      const videoData = parseLessonPage(source)
       if (videoData) {
         return [videoData]
       } else {
@@ -110,6 +182,23 @@ async function getVideoData () {
         lessonURLs.push(match[1])
       }
       success(`Found ${lessonURLs.length} ${(lessonURLs.length) > 1 ? 'lessons' : 'lesson'}`)
+
+      if (isPro) {
+        const firstLesson = lessonURLs[0]
+        const pattern = /egghead.io\/lessons\/(.*)\?/
+        const [, lessonSlug] = pattern.exec(firstLesson) || []
+        const response = await rp({
+          uri: `https://egghead.io/api/v1/lessons/${lessonSlug}/next_up`,
+          json: true
+        })
+        const { lessons } = response.list || {lessons: []}
+
+        return lessons.map((lesson) => {
+          const pattern = /https:\/\/.*\/lessons\/.*\/(.*)\?.*/
+          const [url, filename] = pattern.exec(lesson.download_url)
+          return {url, filename}
+        })
+      }
       progress.start('Fetching lesson pages')
       // fetch and process the lessons, start all requests at the same time to save time.
       const promises = lessonURLs.map(processLessonURL)
