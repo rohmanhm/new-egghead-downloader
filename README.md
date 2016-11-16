@@ -17,10 +17,12 @@ Then you can use it from the command line
 
     Options:
 
-      -h, --help     output usage information
-      -V, --version  output the version number
-      -c, --count    Add the number of the video to the filename (only for playlists and series)
-      -f, --force    Overwriting existing files
+      -h, --help                 output usage information
+      -V, --version              output the version number
+      -e, --email <email>        Account email (only required for Pro accounts)
+      -p, --password [password]  Account password (only required for Pro accounts)
+      -c, --count                Add the number of the video to the filename (only for playlists and series)
+      -f, --force                Overwriting existing files
 
 
 ### Development
