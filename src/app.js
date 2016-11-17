@@ -26,7 +26,7 @@ program
   .option('-f, --force', 'Overwriting existing files')
   .action((url, output) => {
     urlValue = url
-    outputDir = output ? path.resolve(output) : process.cwd();
+    outputDir = output ? path.resolve(output) : process.cwd()
   })
 program.parse(process.argv)
 
@@ -50,14 +50,14 @@ function fileExists (p) {
   }
 }
 
-async function getCSRFToken() {
+async function getCSRFToken () {
   const body = await rp(SIGN_IN_URL)
   const pattern = /<meta name="csrf-token" content="(.*)" \/>/
   const [, CSRFToken] = pattern.exec(body) || []
   return CSRFToken
 }
 
-async function authenticate(email, password) {
+async function authenticate (email, password) {
   const CSRFToken = await getCSRFToken()
   const options = {
     method: 'POST',
@@ -81,7 +81,7 @@ async function authenticate(email, password) {
 async function doTheMagic () {
   if (program.email) {
     if (program.password === true) {
-      const { password } = await prompt({
+      const { password } = await prompt({
         type: 'password',
         name: 'password',
         message: 'Egghead.io password'
