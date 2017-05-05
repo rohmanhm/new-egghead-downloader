@@ -1,16 +1,20 @@
 {
-  "name": "egghead-downloader",
-  "version": "0.1.9",
+  "name": "new-egghead-downloader",
+  "version": "0.2",
   "description": "Downloads single videos or series from egghead.io for you",
-  "author": "Simon Selg <simon@selg.me>",
+  "author": [
+    "Simon Selg <simon@selg.me>",
+    "Roman Masyhar <mhrohman@live.com>"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:SimonSelg/egghead-downloader.git"
+    "url": "git@github.com:rohmanhm/new-egghead-downloader.git"
   },
   "keywords": [
     "egghead.io",
-    "downloader"
+    "downloader",
+    "2017"
   ],
   "engines": {
     "node": ">=6.0.0"
