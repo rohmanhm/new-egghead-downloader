@@ -20,9 +20,7 @@
     "node": ">=6.0.0"
   },
   "preferGlobal": true,
-  "bin": {
-    "ehd": "dist/app.js"
-  },
+  "bin": "dist/app.js",
   "dependencies": {
     "chalk": "^1.1.3",
     "commander": "^2.9.0",
