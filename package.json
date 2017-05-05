@@ -21,7 +21,7 @@
   },
   "preferGlobal": true,
   "bin": {
-    "egghead-downloader": "dist/app.js"
+    "ehd": "dist/app.js"
   },
   "dependencies": {
     "chalk": "^1.1.3",
