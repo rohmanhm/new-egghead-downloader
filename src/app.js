@@ -135,7 +135,7 @@ async function doTheMagic () {
   success('Done!')
 }
 
-// loads the url and parses it, when it's playlist/serie loads the video pages
+// loads the url and parses it, when it's playlist/series loads the video pages
 // too, and returns an array with the video data
 async function getVideoData () {
   try {
@@ -174,9 +174,9 @@ async function getVideoData () {
       let lessonURLs = []
       success('The URL is a playlist or series')
 
-      // get the urls of the lessions
-      const re = /<h4 class="title"><a href="(https:\/\/egghead.io\/lessons\/.+?)">/g
-      // regexp in js have no matchAll method or something similiar..
+      // get the urls of the lessons
+      const re = /<a href="(https:\/\/egghead.io\/lessons\/.+?)" class="(base .+?)">/g
+      // regexp in js have no matchAll method or something similar..
       let match
       while ((match = re.exec(source))) {
         lessonURLs.push(match[1])
@@ -185,7 +185,7 @@ async function getVideoData () {
 
       if (isPro) {
         const firstLesson = lessonURLs[0]
-        const pattern = /egghead.io\/lessons\/(.*)\?/
+        const pattern = /egghead.io\/lessons\/(.*)/
         const [, lessonSlug] = pattern.exec(firstLesson) || []
         const response = await rp({
           uri: `https://egghead.io/api/v1/lessons/${lessonSlug}/next_up`,
@@ -204,7 +204,7 @@ async function getVideoData () {
       const promises = lessonURLs.map(processLessonURL)
       const result = await Promise.all(promises.map(reflect))
       progress.stop(true)
-      // get the urls that succeded and thos that failed
+      // get the urls that succeeded and those that failed
       const videoURLs = result.filter(v => (v.state === 'resolved')).map(v => v.value)
       const failed = result.filter(v => (v.state === 'rejected'))
       // check if we have some lesson pages that failed (wrong url or paid)
