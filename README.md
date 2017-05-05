@@ -7,13 +7,13 @@ please create an issue on Github.
 
 To get started, just run
 
-- `npm install -g --production egghead-downloader`
+- `npm install -g ehd`
 
 Then you can use it from the command line
 
-`$ egghead-downloader -c https://egghead.io/series/getting-started-with-redux really-awesome-series`
+`$ ehd -c https://egghead.io/series/getting-started-with-redux really-awesome-series`
 
-    Usage: egghead-downloader [options] <url> <output-dir>
+    Usage: ehd [options] <url> <output-dir>
 
     Options:
 
