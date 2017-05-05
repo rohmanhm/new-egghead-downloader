@@ -1,5 +1,5 @@
 {
-  "name": "new-egghead-downloader",
+  "name": "ehd",
   "version": "0.2",
   "description": "Downloads single videos or series from egghead.io for you",
   "author": [
