@@ -1,5 +1,7 @@
 # Egghead.io downloader
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/rohmanhm/new-egghead-downloader.svg)](https://greenkeeper.io/)
+
 This is a small node.js command line tool that can download series, playlists and lessons from [egghead.io](https://egghead.io/) as .mp4 for you.
 
 Currently it requires node >= v.6.0.0. If there is any need to support lower versions,
