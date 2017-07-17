@@ -1,6 +1,6 @@
 {
   "name": "ehd",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Downloads single videos or series from egghead.io for you",
   "author": [
     "Simon Selg <simon@selg.me>",
