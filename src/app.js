@@ -175,7 +175,7 @@ async function getVideoData () {
       success('The URL is a playlist or series')
 
       // get the urls of the lessons
-      const re = /<a class="flex h-100 absolute top-0 right-0 bottom-0 left-0" style="pointer-events:all;" href="(\/lessons\/.+?)"/g
+      const re = /<a class="flex h-100 absolute top-0 right-0 bottom-0 left-0" style="pointer-events:all" href="(\/lessons\/.+?)"/g
       // regexp in js have no matchAll method or something similar..
       let match
       while ((match = re.exec(source))) {
